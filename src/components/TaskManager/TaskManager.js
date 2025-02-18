@@ -19,7 +19,9 @@ export const TaskManager = () => {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const response = await axios.get("http://localhost:8082/tasks");
+        const response = await axios.get(
+          "https://taskmanagerbackend-2-1dbt.onrender.com/tasks"
+        );
         setTasks(response.data);
       } catch (err) {
         console.error("Error fetching tasks:", err);
@@ -61,16 +63,24 @@ export const TaskManager = () => {
 
     try {
       if (isEditing) {
-        await axios.patch(`http://localhost:8082/tasks/${taskData._id}`, {
-          title: taskData.title,
-          description: taskData.description,
-          deadline: taskData.deadline,
-        });
+        await axios.patch(
+          `https://taskmanagerbackend-2-1dbt.onrender.com/tasks/${taskData._id}`,
+          {
+            title: taskData.title,
+            description: taskData.description,
+            deadline: taskData.deadline,
+          }
+        );
       } else {
         console.log("formData in handleSave", formData);
-        await axios.post("http://localhost:8082/tasks", formData);
+        await axios.post(
+          "https://taskmanagerbackend-2-1dbt.onrender.com/tasks",
+          formData
+        );
       }
-      const response = await axios.get("http://localhost:8082/tasks");
+      const response = await axios.get(
+        "https://taskmanagerbackend-2-1dbt.onrender.com/tasks"
+      );
       setTasks(response.data);
       handleClose();
     } catch (err) {
@@ -89,10 +99,15 @@ export const TaskManager = () => {
 
   const handleMarkAsDone = async (taskId) => {
     try {
-      await axios.patch(`http://localhost:8082/tasks/${taskId}`, {
-        status: "DONE",
-      });
-      const response = await axios.get("http://localhost:8082/tasks");
+      await axios.patch(
+        `https://taskmanagerbackend-2-1dbt.onrender.com/tasks/${taskId}`,
+        {
+          status: "DONE",
+        }
+      );
+      const response = await axios.get(
+        "https://taskmanagerbackend-2-1dbt.onrender.com/tasks"
+      );
       setTasks(response.data);
     } catch (err) {
       console.error("Error updating task:", err);
@@ -114,8 +129,12 @@ export const TaskManager = () => {
   const handleDelete = async (taskId) => {
     if (window.confirm("Are you sure you want to delete this task?")) {
       try {
-        await axios.delete(`http://localhost:8082/tasks/${taskId}`);
-        const response = await axios.get("http://localhost:8082/tasks");
+        await axios.delete(
+          `https://taskmanagerbackend-2-1dbt.onrender.com/tasks/${taskId}`
+        );
+        const response = await axios.get(
+          "https://taskmanagerbackend-2-1dbt.onrender.com/tasks"
+        );
         setTasks(response.data);
       } catch (err) {
         console.error("Error deleting task:", err);
